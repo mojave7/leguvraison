@@ -1,0 +1,67 @@
+INSTALL
+
+Mettre le dossier sur votre server
+
+BASE DE DONNEE:
+    Créer une base de donnée du nom de votre choix
+    Y éxecuter le code sql leguvraison.sql
+    config.php:
+        Mettre votre user et password pour votre base de donnée
+        Mettre le nom de votre base créée précedement
+
+FACULTATIF - LINUX - ENVOIE AUTOMATIQUE DE MAILS
+    Il est possible de gérer l'envoie automatique de mail à l'inscription et à la validation d'une commande
+    L'envoie se fait depuis l'adresse e-mail leguvraison@gmail.com
+        mail : leguvraison@gmail.com
+        password : web2021_legu
+
+    Le pacquet msmtp permet de gérer la redirection des mail, pour l'installer:
+        Executer la commande:
+            apt install msmtp msmtp-mta
+        Créer le fichier /etc/msmtprc et y copier:
+---------------------------------------------------
+# Valeurs par défaut pour tous les comptes.
+defaults
+auth           on
+tls            on
+tls_starttls   on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+logfile        /var/log/msmtp.log
+
+account        gmail
+auth           plain
+host           smtp.gmail.com
+port           587
+from           leguvraison@gmail.com
+user           leguvraison
+password       web2021_legu
+
+
+# Définir le compte par défaut
+account default : gmail
+---------------------------------------------------
+        Pour tester la configuration:
+            echo 'message' | mail [VOTRE_ADRESSE_MAIL]
+
+    En php, la fonction mail permet l'envoie d'un mail depuis une page web, qui sera rediriger grâce au pacquet
+    Elle se trouve sous la forme
+        mail ( string $to , string $subject , string $message , array|string $additional_params = [] , string $additional_params = "" ) : bool
+    
+    Elle renvoie true si l’envoie est réussi, false sinon
+    
+    Paramètres:
+        $to
+            mail du destinataire
+        $subject
+            objet du mail
+        $message
+            message du mail
+        $additional_params et $additional_params
+            paramètres supplémentaires,
+            par exemple pour envoyer du contenu html qui sera interprété on peut passer
+                'Content-type: text/html'
+            en paramètre.
+
+    
+
+
